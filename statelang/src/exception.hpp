@@ -22,14 +22,10 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef STATESRV_STATELANG_LEXER_HPP
-#define STATESRV_STATELANG_LEXER_HPP
+#ifndef STATESRV_STATELANG_EXCEPTION_HPP
+#define STATESRV_STATELANG_EXCEPTION_HPP
 
-#include <fstream>
-#include <memory>
 #include <string>
-
-#include "token.hpp"
 
 namespace StateSrv
 {
@@ -37,39 +33,31 @@ namespace StateLang
 {
 
 /**
- * @brief Convert an input stream into a stream of lexical tokens
+ * @brief Base class for all exceptions
  */
-class Lexer
+class Exception
 {
 public:
 
-    /**
-     * @brief Create a new lexer for the provided file
-     * @param filename path to the file
-     */
-    explicit Lexer(const std::wstring &filename);
+    explicit Exception(const std::wstring &message) : mMessage(message) {}
 
-    /**
-     * @brief Retrieve the next token from the input stream
-     * @return the next token
-     */
-    std::unique_ptr<Token> getNextToken();
+    std::wstring message() const { return mMessage; }
 
 private:
 
-    wchar_t getNextChar(bool eofAllowed);
+    std::wstring mMessage;
+};
 
-    std::unique_ptr<Token> parseStringLiteral();
-    std::unique_ptr<Token> parseNumberLiteral();
-    std::unique_ptr<Token> parseIdentifier();
-    std::unique_ptr<Token> parseOperator();
-
-    wchar_t parseCharacter();
-
-    std::wifstream mStream;
+/**
+ * @brief Exceptions raised due to compiler errors
+ */
+class CompilerErrorException : public Exception
+{
+public:
+    using Exception::Exception;
 };
 
 }
 }
 
-#endif // STATESRV_STATELANG_LEXER_HPP
+#endif // STATESRV_STATELANG_EXCEPTION_HPP

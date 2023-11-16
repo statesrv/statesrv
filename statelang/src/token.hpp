@@ -22,8 +22,8 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef STATESRV_STATELANG_TOKEN_H
-#define STATESRV_STATELANG_TOKEN_H
+#ifndef STATESRV_STATELANG_TOKEN_HPP
+#define STATESRV_STATELANG_TOKEN_HPP
 
 #include <string>
 
@@ -104,9 +104,9 @@ class BaseToken : public Token
 {
 public:
 
-    explicit BaseToken(const T &value) { mValue(value); }
+    explicit BaseToken(const T &value) : mValue(value) { }
 
-    T value() const { return mValue; }
+    const T &value() const { return mValue; }
 
 private:
 
@@ -114,24 +114,43 @@ private:
 };
 
 class StringLiteralToken : public BaseToken<std::wstring>
-{};
+{
+public:
+    using BaseToken<std::wstring>::BaseToken;
+};
 
 class IntLiteralToken : public BaseToken<int>
-{};
+{
+public:
+    using BaseToken<int>::BaseToken;
+};
 
 class FloatLiteralToken : public BaseToken<float>
-{};
+{
+public:
+    using BaseToken<float>::BaseToken;
+};
 
 class KeywordToken : public BaseToken<Keyword>
-{};
+{
+public:
+    using BaseToken<Keyword>::BaseToken;
+};
 
 class IdentifierToken : public BaseToken<std::wstring>
-{};
+{
+public:
+    using BaseToken<std::wstring>::BaseToken;
+};
 
 class OperatorToken : public BaseToken<Operator>
-{};
+{
+public:
+    using BaseToken<Operator>::BaseToken;
+
+};
 
 }
 }
 
-#endif // STATESRV_STATELANG_TOKEN_H
+#endif // STATESRV_STATELANG_TOKEN_HPP
